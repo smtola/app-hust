@@ -1,0 +1,37 @@
+app-login,app-forget-psw,app-verify-code{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+}
+app-account-profile {
+    background-color: #170a4bfa;
+    font-family: Montserrat, sans-serif;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    min-height: 100vh;
+    margin: 0;
+}
+@media screen and (max-width:768px){
+    app-login,app-forget-psw,app-verify-code{
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+    }
+    app-account-profile {
+        background-color: #170a4bfa;
+        font-family: Montserrat, sans-serif;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0;
+        min-height: 90vh;
+    }
+}

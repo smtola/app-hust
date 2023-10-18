@@ -1,0 +1,15 @@
+<div class="wrapper">
+    <div class="logo">
+        <img src="../assets/img/logo.png" alt="logo">
+        <h1>Forget Password</h1>
+        <h1>Input your email to reset password</h1>
+    </div>
+    <form action="">
+        <div class="input_form">
+            <span><fa-icon [icon]="email"></fa-icon></span>
+            <input type="email" name="email" id="email" placeholder="Email">
+        </div>
+        <button type="submit"><a routerLink="/verify-code">Reset Password</a></button>
+        <span class="bck"><a routerLink="/login"> < Back To Login</a></span>
+    </form>
+</div>

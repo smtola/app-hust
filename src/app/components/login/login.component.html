@@ -1,0 +1,26 @@
+<div class="wrapper">
+    <div class="logo">
+        <img src="../assets/img/logo.png" alt="logo">
+        <h1>Login into your account</h1>
+    </div>
+    <form action="">
+        <div class="login_form">
+            <span><fa-icon [icon]="user"></fa-icon></span>
+            <input type="text" name="uname" id="uname" placeholder="Username">
+        </div>
+        <div class="login_form">
+            <span><fa-icon [icon]="lock"></fa-icon></span>
+            <input type="password" name="pass" id="pass" placeholder="Password">
+        </div>
+        <div class="remember">
+            <input type="checkbox" checked="checked" name="remember" id="remember">
+            Remember me
+            <a href="./forget-psw">Forget Password</a>
+        </div>
+        <button type="submit"><a routerLink="">Login</a></button>
+    </form>
+    <div class="lang">
+        <a href="#"><img src="../assets/img/Flag-Cambodia.jpg" alt="khmer" width="35" height="25"></a>
+        <a href="#"><img src="../assets/img/Flag-United-States-of-America.jpg" alt="usa" width="35" height="25"> </a>
+    </div>
+</div>
