@@ -1,3 +1,7 @@
+Release Link: https://smtola.github.io/app-hust/
+
+
+
 # FirstProject
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.
