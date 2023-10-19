@@ -10,6 +10,7 @@ import { StaffAppComponent } from './components/staff-app/staff-app.component';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AccountProfileComponent } from './components/account-profile/account-pr
     ForgetPswComponent,
     StaffAppComponent,
     VerifyCodeComponent,
-    AccountProfileComponent
+    AccountProfileComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

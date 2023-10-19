@@ -6,6 +6,7 @@ import { ForgetPswComponent } from './components/forget-psw/forget-psw.component
 import { StaffAppComponent } from './components/staff-app/staff-app.component';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'staff-app',component:StaffAppComponent},
   {path:'verify-code',component:VerifyCodeComponent},
   {path:'account-profile',component:AccountProfileComponent},
+  {path:'navbar', component:NavbarComponent}
 ];
 
 @NgModule({
