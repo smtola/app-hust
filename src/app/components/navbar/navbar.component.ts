@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -15,13 +15,16 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
         </div>
         <ul>
           <li>
+          <input type="search" name="search" placeholder="Search"  [(ngModel)]="searchChangesValueText" (input)=" onSearchValueText()">
+          </li>
+          <li>
             <a routerLink="/account-profile">
               <h2>Username</h2>
             </a>
           </li>
           <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn"
-              ><fa-icon [icon]="user" class="icon"></fa-icon
+            <a href="javascript:void(0)" class="dropbtn">
+              <fa-icon [icon]="user" class="icon"></fa-icon
             ></a>
             <div class="dropdown-content">
               <a routerLink="/account-profile">Personal</a>
@@ -141,6 +144,16 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
           display: none;
         }
       }
+      input[type="search"]{
+        border-radius: 4px;
+         padding:5px 10px;
+         outline:none;
+         border:none;
+         transition: all 0.5s ease;
+      }
+      input[type="search"]:hover{
+        border:blue 1px solid;
+      }
     `,
   ],
 })
@@ -151,4 +164,13 @@ export class NavbarComponent implements OnInit {
   }
 
   user = faUser;
+  searchChangesValueText:string = '';
+
+  @Output() searchValueTextEvent: EventEmitter<string> = new EventEmitter<string>();
+
+  onSearchValueText(){
+    this.searchValueTextEvent.emit(this.searchChangesValueText);
+    // console.log(this.searchChangesValueText);
+  }
+ 
 }

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <div class="card-container">
       <img class="round" src="./assets/img/logo.png" alt="user" />
-      <h3>Profile Name</h3>
+      <h3>Username</h3>
       <h6>City</h6>
       <p>
         User interface designer and <br />
@@ -125,4 +125,6 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class AccountProfileComponent {}
+export class AccountProfileComponent {
+    dataName:any;
+}

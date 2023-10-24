@@ -11,6 +11,7 @@ import { VerifyCodeComponent } from './components/verify-code/verify-code.compon
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,6 +20,7 @@ app-login,app-forget-psw,app-verify-code{
     align-items: center;
     min-height: 95vh;
 }
+
 app-account-profile {
     background-color: #170a4bfa;
     font-family: Montserrat, sans-serif;
@@ -38,6 +39,7 @@ app-account-profile {
         justify-content: center;
         align-items: center;
         min-height: 90vh;
+        
     }
     app-account-profile {
         background-color: #170a4bfa;

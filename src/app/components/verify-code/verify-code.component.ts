@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -9,21 +9,24 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
         <img src="./assets/img/logo.png" alt="logo" />
         <h1>សូមបំពេញ​ OTP ច្រាំមួយខ្ទង់</h1>
       </div>
-      <form routerLink="#">
+      <form #verifyForm="ngForm" (ngSubmit)="onSubmit(verifyForm.value)" style="display: grid;">
         <div class="verify_form">
           <span><fa-icon [icon]="user"></fa-icon></span>
-          <input type="text" name="uname" id="uname" placeholder="sideton" />
+          <input
+            type="text" name="uname" id="uname" placeholder="sideton" ngModel uname #uname="ngModel" required/>
         </div>
+        <span class="error" style="padding: 5px 3rem;" *ngIf="uname.invalid && uname.touched">Please fill your username</span>
         <div class="verify_form">
           <span><fa-icon [icon]="code"></fa-icon></span>
-          <input
-            type="text"
-            name="code"
-            id="code"
-            placeholder="សូមបំពេញ​​​ ​OTP ប្រាំមួយខ្ទង់"
-          />
+          <input type="number" name="code" id="code" placeholder="សូមបំពេញ​​​ ​OTP ប្រាំមួយខ្ទង់" required #cdOtp="ngModel" ngModel cdOtd minlength="3" maxlength="6"/>
         </div>
-        <input type="button" value="ផ្ទៀងផ្ទាត់​ OTP" routerLink="/login" />
+        <span class="error" *ngIf="cdOtp.invalid && cdOtp.touched">Your OTP incorrect.</span>
+        <input
+          type="button"
+          value="ផ្ទៀងផ្ទាត់​ OTP"
+          routerLink="/login"
+          [disabled]="verifyForm.invalid"
+        />
         <span class="bck"><a routerLink="/login"> < Back To Login</a></span>
       </form>
     </div>
@@ -118,7 +121,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
       }
       .verify_form {
         position: relative;
-        margin: 20px 0;
+        margin: 10px 0;
         max-width: 300px;
         border: 2px solid #6c6c6cc1;
         border-radius: 10px;
@@ -137,13 +140,33 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
         color: #000000;
         padding: 0 30px 0 10px;
       }
+
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      }
       .verify_form:hover {
         border: 2px solid #00b7ffc1;
+      }
+      .error {
+        padding: 5px 4.6rem;
+        max-width: 300px;
+        color: #990000;
+        background: rgba(255, 77, 77, 0.3);
+        border-radius: 10px;
+        border: 1px solid #990000;
       }
     `,
   ],
 })
-export class VerifyCodeComponent {
+export class VerifyCodeComponent implements OnInit {
+
+  ngOnInit(): void {}
+  
+  onSubmit: any;
   user = faUser;
   code = faSearch;
+  verifyForm(data:any){
+    console.warn(data); 
+  };
 }

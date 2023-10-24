@@ -3,106 +3,18 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-staff-app',
   template: `
-    <app-navbar></app-navbar>
+    <app-navbar (searchValueTextEvent)='onSearchToValueText($event)'></app-navbar>
 
     <!-- Section -->
     <div class="cnt-staff-app">
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/Whatsapp.png" alt="" />
-        </a>
-        <h1>WhatsApp</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/messenger.png" alt="" />
-        </a>
-        <h1>Messenger</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/slack.png" alt="" />
-        </a>
-        <h1>Slack</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/skype.png" alt="" />
-        </a>
-        <h1>Skype</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/gmail.png" alt="" />
-        </a>
-        <h1>Gmail</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/telegram.png" alt="" />
-        </a>
-        <h1>Telegram</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/android-message.png" alt="" />
-        </a>
-        <h1>Messages</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/google-calendar.png" alt="" />
-        </a>
-        <h1>Calendar</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/discord.png" alt="" />
-        </a>
-        <h1>Discord</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/hangout.png" alt="" />
-        </a>
-        <h1>Hangouts</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/linkedin.png" alt="" />
-        </a>
-        <h1>LinkedIn</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/tweetdesk.png" alt="" />
-        </a>
-        <h1>Tweetdeck</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/trello.png" alt="" />
-        </a>
-        <h1>Trello</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/office365-outlook.png" alt="" />
-        </a>
-        <h1>Outlook</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/google-keep.png" alt="" />
-        </a>
-        <h1>Google Keep</h1>
-      </div>
-      <div class="content-box-item">
-        <a href="#">
-          <img src="./assets/img/AppIcon/hangout.png" alt="" />
-        </a>
-        <h1>Hangout Chat</h1>
-      </div>
+      <ng-container  *ngFor="let app of staffApp">
+        <div class="content-box-item" *ngIf="searchToValueText === '' || app.name.toLowerCase().includes(searchToValueText)">
+          <a href="#">
+            <img src="{{app.source}}" alt="" />
+          </a>
+          <h1>{{app.name}}</h1>
+        </div>
+      </ng-container>
     </div>
     <!-- End Section -->
   `,
@@ -162,4 +74,31 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class StaffAppComponent {
   user = faUser;
+
+  staffApp = [
+    {id:1, name:'Whatsapp', source:'./assets/img/AppIcon/Whatsapp.png'},
+    {id:2, name:'Messenger', source:'./assets/img/AppIcon/messenger.png'},
+    {id:3, name:'Slack', source:'./assets/img/AppIcon/slack.png'},
+    {id:4, name:'Skype', source:'./assets/img/AppIcon/skype.png'},
+    {id:5, name:'Gmail', source:'./assets/img/AppIcon/gmail.png'},
+    {id:6, name:'Android Message', source:'./assets/img/AppIcon/android-message.png'},
+    {id:7, name:'Google Calendar', source:'./assets/img/AppIcon/google-calendar.png'},
+    {id:8, name:'Discord', source:'./assets/img/AppIcon/discord.png'},
+    {id:9, name:'Hangout', source:'./assets/img/AppIcon/hangout.png'},
+    {id:10, name:'LinkedIn', source:'./assets/img/AppIcon/linkedin.png'},
+    {id:11, name:'Tweetdesk', source:'./assets/img/AppIcon/tweetdesk.png'},
+    {id:12, name:'Trello', source:'./assets/img/AppIcon/trello.png'},
+    {id:13, name:'Office365-Outlook', source:'./assets/img/AppIcon/office365-outlook.png'},
+    {id:14, name:'Google Keep', source:'./assets/img/AppIcon/google-keep.png'},
+    {id:15, name:'Hangout', source:'./assets/img/AppIcon/hangout.png'},
+    {id:16, name:'Hangout Chat', source:'./assets/img/AppIcon/hangout.png'},
+  ]
+
+  searchToValueText:string = '';
+
+  onSearchToValueText(e:string)
+  {
+    this.searchToValueText =e;
+    console.log(this.searchToValueText);
+  }
 }

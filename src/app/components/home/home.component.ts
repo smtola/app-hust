@@ -1,71 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
   template: `
-    <app-navbar></app-navbar>
+    <app-navbar  (searchValueTextEvent)='onSearchValueText($event)'></app-navbar>
 
     <!-- Section -->
-    <section class="section">
-      <div class="container-fluid">
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/security.png" alt="Core Security System" />
-          </a>
-          <h2>Core Security</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/invoice.png" alt="invoice" />
-          </a>
-          <h2>Invoice</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/nat.png" alt="NAT" />
-          </a>
-          <h2>NATT</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/nat.png" alt="NAT Local" />
-          </a>
-          <h2>NATT (local)</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img
-              src="./assets/img/resource-system.png"
-              alt="Human resource system"
-            />
-          </a>
-          <h2>Resource system</h2>
-        </div>
-        <div class="content">
-          <a routerLink="./staff-app">
-            <img src="./assets/img/staff.png" alt="Staff App" />
-          </a>
-          <h2>STAFF _APP</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/staff.png" alt="Staff App Local" />
-          </a>
-          <h2>STAFF _APP (Local)</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/utils.png" alt="UTILS" />
-          </a>
-          <h2>UTILS</h2>
-        </div>
-        <div class="content">
-          <a href="#">
-            <img src="./assets/img/utils-local.png" alt="UTILS Local" />
-          </a>
-          <h2>UTILS (Local)</h2>
-        </div>
+    <section class="section" >
+      <div class="container-fluid" >
+        <ng-container *ngFor="let appSystem of nameApp">
+          <div class="content" *ngIf="searchValueText === '' || appSystem.title.toLowerCase().includes(searchValueText)">
+            <a [routerLink]="appSystem.link">
+              <img src="{{appSystem.source}}" alt="Core Security System" />
+            </a>
+            <h2>{{appSystem.title}}</h2>
+          </div>
+        </ng-container>
       </div>
     </section>
     <!-- End Section -->
@@ -144,4 +95,24 @@ export class HomeComponent implements OnInit {
 
   constructor() {}
   ngOnInit() {}
+
+  nameApp = [
+    {id:1, title:"Core Security",source:'./assets/img/security.png'},
+    {id:1, title:"Invoice",source:'./assets/img/invoice.png'},
+    {id:1, title:"NATT",source:'./assets/img/nat.png'},
+    {id:1, title:"NATT (Local)",source:'./assets/img/nat.png'},
+    {id:1, title:"Resource system",source:'./assets/img/resource-system.png'},
+    {id:1, title:"Staff _App",source:'./assets/img/staff.png',link:'./staff-app'},
+    {id:1, title:"Staff _App (Local)",source:'./assets/img/staff.png'},
+    {id:1, title:"UTILS",source:'./assets/img/utils-local.png'},
+    {id:1, title:"UTILS (Local)",source:'./assets/img/utils-local.png'},
+  ]
+  searchValueText:string = '';
+
+  onSearchValueText(e:string)
+  {
+    this.searchValueText =e;
+    // console.log(this.searchValueText);
+  }
+
 }

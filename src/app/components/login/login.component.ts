@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -9,15 +10,17 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
         <img src="./assets/img/logo.png" alt="logo" />
         <h1>Login into your account</h1>
       </div>
-      <form action="">
+      <form #userForm ='ngForm' (ngSubmit)="onSubmit()">
         <div class="login_form">
           <span><fa-icon [icon]="user"></fa-icon></span>
-          <input type="text" name="uname" id="uname" placeholder="Username" />
+          <input type="text" name="uname" id="uname" placeholder="Username" required #uname="ngModel" ngModel uname/>
         </div>
+          <span class="error" style="padding: 5px 4.8rem;" *ngIf="uname.invalid && uname.touched">Username incorrect</span>
         <div class="login_form">
           <span><fa-icon [icon]="lock"></fa-icon></span>
-          <input type="password" name="pass" id="pass" placeholder="Password" />
+          <input type="password" name="pass" id="pass" placeholder="Password" required #pass ="ngModel" ngModel pass minlength="3" maxlength="10"/>
         </div>
+        <span class="error"  *ngIf="pass.invalid && pass.touched">Password incorrect</span>
         <div class="remember">
           <input
             type="checkbox"
@@ -28,7 +31,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
           Remember me
           <a routerLink="/forget-psw">Forget Password</a>
         </div>
-        <button type="submit" routerLink=""><a>Login</a></button>
+        <button type="submit" routerLink="" [disabled]="!userForm.valid"><a>Login</a></button>
       </form>
       <div class="lang">
         <a href="#"
@@ -73,11 +76,11 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
       }
       .login_form {
         position: relative;
-        margin: 30px 0;
+        margin: 10px 0;
         max-width: 325px;
         border: 2px solid #6c6c6cc1;
         border-radius: 10px;
-        padding: 10px 15px;
+        padding: 5px 15px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -93,7 +96,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
         outline: none;
         font-size: 1rem;
         color: #000000;
-        padding: 0 30px 0 10px;
+        padding: 0 20px 0 10px;
       }
       .remember {
         font-size: 1rem;
@@ -181,54 +184,6 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
         color: #000000;
       }
 
-      .input_form {
-        position: relative;
-        margin: 30px 0;
-        max-width: 325px;
-        border: 2px solid #6c6c6cc1;
-        border-radius: 10px;
-        padding: 5px 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .input_form input {
-        width: 100%;
-        height: 25px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        color: #000000;
-        padding: 0 30px 0 10px;
-      }
-      .input_form:hover {
-        border: 2px solid #00b7ffc1;
-      }
-      .verify_form {
-        position: relative;
-        margin: 20px 0;
-        max-width: 350px;
-        border: 2px solid #6c6c6cc1;
-        border-radius: 10px;
-        padding: 10px 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .verify_form input {
-        width: 250vh;
-        height: 25px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        color: #000000;
-        padding: 0 30px 0 10px;
-      }
-      .verify_form:hover {
-        border: 2px solid #00b7ffc1;
-      }
       .lang {
         display: flex;
         justify-content: center;
@@ -242,10 +197,40 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
       .lang img:hover {
         transform: scale(1.05);
       }
+      .error {
+        padding: 5px 5rem;
+        max-width: 300px;
+        color: #990000;
+        background: rgba(255, 77, 77, 0.3);
+        border-radius: 10px;
+        border: 1px solid #990000;
+      }
+
+      @media screen and (max-width:420px){
+        .error {
+          padding: 5px 4.6rem;
+        max-width: 300px;
+        color: #990000;
+        background: rgba(255, 77, 77, 0.3);
+        border-radius: 10px;
+        border: 1px solid #990000;
+      }
+      }
+
+
     `,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   user = faUser;
   lock = faLock;
+
+  @ViewChild('userForm') form!: NgForm;
+  onSubmit(){
+    console.log(this.form.value.uname);
+  }
+
 }

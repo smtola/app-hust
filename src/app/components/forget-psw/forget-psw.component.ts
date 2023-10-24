@@ -10,12 +10,15 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
         <h1>Forget Password</h1>
         <h1>Input your email to reset password</h1>
       </div>
-      <form action="">
+      <form #forgetForm='ngForm' (ngSubmit)="onSubmit(forgetForm.value)" style="display: grid;">
         <div class="input_form">
-          <span><fa-icon [icon]="email"></fa-icon></span>
-          <input type="email" name="email" id="email" placeholder="Email" />
+          <span><fa-icon [icon]="mailBulk"></fa-icon></span>
+          <input type="email" name="email" id="email" placeholder="Email" #email="ngModel"
+          aria-describedby="emailHelp"
+          required ngModel email/>
         </div>
-        <button type="submit" routerLink="/verify-code">
+        <span *ngIf="email.invalid && email.touched" class="error">Email is not valid</span>
+        <button type="submit" routerLink="/verify-code" [disabled]="forgetForm.invalid">
           <a>Reset Password</a>
         </button>
         <span class="bck"><a routerLink="/login"> < Back To Login</a></span>
@@ -84,13 +87,14 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
       }
       button[type='submit'] {
         width: 100%;
+        max-width: 325px;
         height: 40px;
         border-radius: 10px;
         background-color: rgba(0, 183, 255, 0.324);
         outline: none;
         border: none;
         cursor: pointer;
-        margin-bottom: 1rem;
+        margin: 1rem 0;
         font-size: 1rem;
         font-weight: 600;
         transition: all 0.4s ease;
@@ -107,7 +111,7 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
         color: white;
       }
       .bck a {
-        float: right;
+        float:right;
         text-decoration: none;
         font-size: 1rem;
         color: #000000;
@@ -118,7 +122,6 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
       }
       .input_form {
         position: relative;
-        margin: 30px 0;
         max-width: 325px;
         border: 2px solid #6c6c6cc1;
         border-radius: 10px;
@@ -126,6 +129,7 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
         display: flex;
         justify-content: center;
         align-items: center;
+        margin:6px 0;
       }
       .input_form input {
         width: 100%;
@@ -140,9 +144,20 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
       .input_form:hover {
         border: 2px solid #00b7ffc1;
       }
+      .error{
+        padding: 5px 5rem;
+        max-width: 300px;
+        color:	#990000;
+        background:rgba(255, 77, 77,.3);
+        border-radius:10px;
+        border:1px solid #990000;
+      }
     `,
   ],
 })
 export class ForgetPswComponent {
-  email = faMailBulk;
+  mailBulk = faMailBulk;
+  onSubmit(data:any){
+    console.warn(data);
+  }
 }
