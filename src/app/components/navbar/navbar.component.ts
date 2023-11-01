@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import {UsersService} from "../services/users.service";
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +20,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
           </li>
           <li>
             <a routerLink="/account-profile">
-              <h2>Username</h2>
+              <h2 *ngIf="user$ | async as user">{{user.displayName}}</h2>
             </a>
           </li>
           <li class="dropdown">
@@ -75,6 +76,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
         overflow-x: hidden;
         padding: 0;
         margin: 0;
+
       }
       li {
         display: inline-block;
@@ -143,6 +145,14 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
         li h2 {
           display: none;
         }
+        input[type="search"]{
+          border-radius: 4px;
+          padding:5px;
+          width: 50px;
+          outline:none;
+          border:none;
+          transition: all 0.5s ease;
+        }
       }
       input[type="search"]{
         border-radius: 4px;
@@ -158,7 +168,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
   ],
 })
 export class NavbarComponent implements OnInit {
-  constructor() {}
+  user$ = this.userService.userName$;
+  constructor(private userService:UsersService) {}
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -172,5 +183,5 @@ export class NavbarComponent implements OnInit {
     this.searchValueTextEvent.emit(this.searchChangesValueText);
     // console.log(this.searchChangesValueText);
   }
- 
+
 }

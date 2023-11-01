@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UsersService} from "../services/users.service";
 
 @Component({
   selector: 'app-account-profile',
   template: `
     <div class="card-container">
       <img class="round" src="./assets/img/logo.png" alt="user" />
-      <h3>Username</h3>
+      <h3 *ngIf="user$ | async as user">{{user.displayName}}</h3>
       <h6>City</h6>
       <p>
         User interface designer and <br />
@@ -125,6 +126,10 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class AccountProfileComponent {
-    dataName:any;
+export class AccountProfileComponent implements OnInit{
+    user$ = this.auth.userName$;
+   ngOnInit() {}
+    constructor(private auth:UsersService) {
+    }
+
 }

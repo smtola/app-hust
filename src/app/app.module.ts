@@ -11,7 +11,12 @@ import { VerifyCodeComponent } from './components/verify-code/verify-code.compon
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import {UsersService} from "./components/services/users.service";
+import {HotToastModule, provideHotToastConfig} from '@ngneat/hot-toast';
 
 @NgModule({
   declarations: [
@@ -22,15 +27,20 @@ import { FormsModule } from '@angular/forms';
     StaffAppComponent,
     VerifyCodeComponent,
     AccountProfileComponent,
-    NavbarComponent
+    NavbarComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp({"projectId":"user-9cbd2","appId":"1:866726122919:web:aa816979ac39ce08a69282","databaseURL":"https://user-9cbd2-default-rtdb.firebaseio.com","storageBucket":"user-9cbd2.appspot.com","apiKey":"AIzaSyBX2nyP5ErVpNUVVf_6NqczRMFbt0lrWyM","authDomain":"user-9cbd2.firebaseapp.com","messagingSenderId":"866726122919"})),
+    provideAuth(() => getAuth()),
+    HotToastModule.forRoot(),
   ],
-  providers: [],
+  providers: [UsersService,provideHotToastConfig()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

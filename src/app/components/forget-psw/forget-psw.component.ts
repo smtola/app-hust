@@ -1,117 +1,79 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-forget-psw',
   template: `
-    <div class="wrapper">
-      <div class="logo">
-        <img src="./assets/img/logo.png" alt="logo" />
-        <h1>Forget Password</h1>
-        <h1>Input your email to reset password</h1>
-      </div>
-      <form #forgetForm='ngForm' (ngSubmit)="onSubmit(forgetForm.value)" style="display: grid;">
-        <div class="input_form">
-          <span><fa-icon [icon]="mailBulk"></fa-icon></span>
-          <input type="email" name="email" id="email" placeholder="Email" #email="ngModel"
-          aria-describedby="emailHelp"
-          required ngModel email/>
+    <div class="container">
+      <div class="wrapper">
+        <div class="logo">
+          <img src="./assets/img/logo.png" alt="logo" />
+          <h1>Forget Password</h1>
+          <h1>Input your email to reset password</h1>
         </div>
-        <span *ngIf="email.invalid && email.touched" class="error">Email is not valid</span>
-        <button type="submit" routerLink="/verify-code" [disabled]="forgetForm.invalid">
-          <a>Reset Password</a>
-        </button>
-        <span class="bck"><a routerLink="/login"> < Back To Login</a></span>
-      </form>
+        <form style="display: grid;"  [formGroup]="forgetPswForm" (ngSubmit)="onSubmit()">
+          <div class="input_form">
+            <input type="email" name="email" id="email" placeholder="Email" formControlName="email"/>
+          </div>
+          <span><fa-icon [icon]="mailBulk"></fa-icon></span>
+          <span class="error" *ngIf="forgetPswForm.get('email').invalid && forgetPswForm.get('email').touched">Email is not valid</span>
+
+          <button type="submit"  [disabled]="forgetPswForm.invalid">
+            <a>Reset Password</a>
+          </button>
+          <span class="bck"><a routerLink="/login"> < Back To Login</a></span>
+        </form>
+      </div>
     </div>
+<!--    routerLink="/verify-code"-->
   `,
   styles: [
     `
-      .wrapper {
-        position: relative;
-        max-width: 450px;
+      .container{
+        display:grid;
+        justify-content:center;
+        align-items:center;
+        min-height: 100vh;
+      }
+      .wrapper{
         background: transparent;
-        border-radius: 20px;
-        backdrop-filter: blur(55px);
-        padding: 2rem 3rem;
-        transition: all 0.4 ease;
+        backdrop-filter: blur(50px);
+        padding:1rem 2rem;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px grey;
       }
-      .logo > img {
-        display: block;
-        margin: 0 auto;
-        width: 90px;
-        height: 88px;
+      .logo>img{
+        width:15vh;
+        margin:10px auto;
+        display:block;
       }
-      .logo > h1 {
-        margin: 10px;
-        font-size: 1rem;
-        text-align: center;
-        color: #020202;
+      .logo>h1{
+        text-align:center;
+        font-size:1rem;
+        margin-bottom: 5px;
       }
-      .remember {
-        font-size: 1rem;
-        color: #000000;
-        margin: 10px 0px;
-      }
-      input[type='checkbox'] {
-        outline: 1px solid #0096fa;
-        user-select: none;
-        border-radius: 5px;
-        width: 1rem;
-        height: 1rem;
-        list-style: none;
-        accent-color: #0096fa;
-      }
-      .info {
-        background: #fff9c4;
-        border-radius: 6px;
-        padding: 0.5rem;
-        text-align: center;
-        width: clamp(300px, 60%, 850px);
-      }
-
-      @supports (accent-color: #fff) {
-        .info {
-          display: none;
-        }
-      }
-      .remember a {
-        color: #057727;
-        text-decoration: none;
-        cursor: pointer;
-        padding: 0 13px;
-        transition: all 0.4 ease;
-      }
-      .remember a:hover {
-        text-decoration: underline;
-      }
-      button[type='submit'] {
+      input[type="email"] {
         width: 100%;
-        max-width: 325px;
-        height: 40px;
-        border-radius: 10px;
-        background-color: rgba(0, 183, 255, 0.324);
+        padding: 6px 2rem;
+        margin-top:5px;
         outline: none;
-        border: none;
-        cursor: pointer;
-        margin: 1rem 0;
-        font-size: 1rem;
-        font-weight: 600;
-        transition: all 0.4s ease;
+        border: #808080 1px solid;
+        border-radius: 4px;
+        transition: all 0.5s ease;
       }
-      button[type='submit']:hover {
-        background-color: rgba(0, 183, 255, 0.963);
-        color: #fff;
+      input[type="email"]:focus{
+        border:#0099ff 1px solid;
       }
-      button a {
-        text-decoration: none;
-        color: #888888;
-      }
-      button:hover a {
-        color: white;
+      .input_form+span{
+        position:absolute;
+        margin-top: 10px;
+        left:40px;
       }
       .bck a {
-        float:right;
+        float: right;
         text-decoration: none;
         font-size: 1rem;
         color: #000000;
@@ -120,44 +82,88 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
       .bck a:hover {
         opacity: 1;
       }
-      .input_form {
-        position: relative;
-        max-width: 325px;
-        border: 2px solid #6c6c6cc1;
-        border-radius: 10px;
-        padding: 5px 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin:6px 0;
-      }
-      .input_form input {
+      button[type="submit"]{
         width: 100%;
-        height: 25px;
-        background: transparent;
-        border: none;
-        outline: none;
+        background: #009999;
+        outline:none;
+        border:none;
+        border-radius: 4px;
+        padding:5px 2rem;
+        color:#fff;
         font-size: 1rem;
-        color: #000000;
-        padding: 0 30px 0 10px;
+        cursor:pointer;
+        margin:10px 0;
+        overflow-x: hidden;
+        transition: all 0.5s ease;
       }
-      .input_form:hover {
-        border: 2px solid #00b7ffc1;
+      button[type="submit"]:hover{
+        background: #009bac;
+        transform: scale(1.01);
       }
       .error{
-        padding: 5px 5rem;
-        max-width: 300px;
-        color:	#990000;
-        background:rgba(255, 77, 77,.3);
-        border-radius:10px;
-        border:1px solid #990000;
+        color:red;
+        font-size: 12px;
       }
-    `,
-  ],
+      input.ng-invalid,input.ng-touched{
+        border:red 1px solid;
+      }
+      input.ng-valid,input.ng-untouched{
+        border:grey 1px solid;
+      }
+
+      .myForm.INVALID {
+        border: 1px solid red;
+        box-shadow: 0 0 31px rgb(255, 0, 0, 0.7) !important;
+      }
+
+      .myForm.PENDING {
+        border: 1px solid #f6de0b;
+        box-shadow: 0 0 31px rgb(255, 235, 0, 0.7) !important;
+      }
+
+      .myForm.VALID {
+        border: 1px solid #2ee536;
+        box-shadow: 0 0 31px rgb(78, 233, 84, 0.7) !important;
+      }
+`],
 })
-export class ForgetPswComponent {
+export class ForgetPswComponent implements OnInit{
   mailBulk = faMailBulk;
-  onSubmit(data:any){
-    console.warn(data);
+ forgetPswForm:FormGroup;
+  formStatus;
+  constructor(private route:Router) {
+  }
+ ngOnInit() {
+   this.forgetPswForm = new FormGroup({
+     email : new FormControl(null,[Validators.required,Validators.email],this.emailNotAllowed)
+   })
+   setTimeout(()=>{
+     this.forgetPswForm.patchValue({
+       email:'somtola@gmail.com'
+     })
+   },1000);
+
+   this.forgetPswForm.statusChanges.subscribe((value)=>{
+     console.log(value);
+     this.formStatus = value;
+   })
+ }
+ onSubmit()
+ {
+   console.log(this.forgetPswForm);
+   this.route.navigateByUrl('verify-code');
+ }
+
+  emailNotAllowed(control:FormControl): Promise<any> | Observable<any> {
+    const response = new Promise((resolve, reject) =>{
+      setTimeout(()=>{
+        if(control.value === 'smtola@gmail.com' ){
+          resolve({emailNotAllowed:true})
+        }else{
+          resolve(null)
+        }
+      },1000)
+    })
+    return response;
   }
 }

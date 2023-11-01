@@ -7,10 +7,13 @@ import { StaffAppComponent } from './components/staff-app/staff-app.component';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 const routes: Routes = [
-  {path:'',component:HomeComponent},
+  {path: '',redirectTo:'home',pathMatch:'full'},
+  {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
+  {path:'sign-up',component:SignUpComponent},
   {path:'forget-psw',component:ForgetPswComponent},
   {path:'staff-app',component:StaffAppComponent},
   {path:'verify-code',component:VerifyCodeComponent},

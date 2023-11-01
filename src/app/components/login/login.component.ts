@@ -1,236 +1,209 @@
-import { Component, ViewChild, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit} from '@angular/core';
+import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {UsersService} from "../services/users.service";
+import {HotToastService} from "@ngneat/hot-toast";
 @Component({
   selector: 'app-login',
   template: `
-    <div class="wrapper">
-      <div class="logo">
-        <img src="./assets/img/logo.png" alt="logo" />
-        <h1>Login into your account</h1>
-      </div>
-      <form #userForm ='ngForm' (ngSubmit)="onSubmit()">
-        <div class="login_form">
+
+    <div class="container">
+      <div class="wrapper">
+        <div class="logo">
+          <img src="./assets/img/logo.png" alt="logo" />
+          <h1>Login into your account</h1>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+          <div class="login_form">
+            <input type="email" name="email" placeholder="email" formControlName="email"/>
+          </div>
           <span><fa-icon [icon]="user"></fa-icon></span>
-          <input type="text" name="uname" id="uname" placeholder="Username" required #uname="ngModel" ngModel uname/>
-        </div>
-          <span class="error" style="padding: 5px 4.8rem;" *ngIf="uname.invalid && uname.touched">Username incorrect</span>
-        <div class="login_form">
+          <span class="error" *ngIf="email?.errors?.['required'] && email.touched ">Email is required</span>
+          <span class="error" *ngIf="email?.errors?.['email'] && email.touched ">Please enter correct email format!</span>
+          <div class="login_form">
+            <input type="password" name="pass" id="pass" placeholder="Password" formControlName="password"/>
+          </div>
           <span><fa-icon [icon]="lock"></fa-icon></span>
-          <input type="password" name="pass" id="pass" placeholder="Password" required #pass ="ngModel" ngModel pass minlength="3" maxlength="10"/>
-        </div>
-        <span class="error"  *ngIf="pass.invalid && pass.touched">Password incorrect</span>
-        <div class="remember">
-          <input
-            type="checkbox"
-            checked="checked"
-            name="remember"
-            id="remember"
-          />
-          Remember me
-          <a routerLink="/forget-psw">Forget Password</a>
-        </div>
-        <button type="submit" routerLink="" [disabled]="!userForm.valid"><a>Login</a></button>
-      </form>
-      <div class="lang">
-        <a href="#"
+          <span class="error" *ngIf="password?.errors?.['required'] && password.touched ">Password is required</span>
+          <span class="error" *ngIf="password?.errors?.['minlength'] && password.touched ">Your password is not match!</span>
+          <div class="remember">
+            <input type="checkbox" checked="checked" name="remember" id="remember"/>
+            <label for="check">Remember me</label>
+            <a routerLink="/forget-psw">Forget Password</a>
+          </div>
+          <button type="submit">Login</button>
+          <span class="center margin-top margin-bottom">Create new account? <a class="sign-up-link" routerLink="/sign-up">Sign Up!</a></span>
+        </form>
+        <div class="lang">
+          <a href="#"
           ><img
             src="./assets/img/Flag-Cambodia.jpg"
             alt="khmer"
             width="35"
             height="25"
-        /></a>
-        <a href="#"
+          /></a>
+          <a href="#"
           ><img
             src="./assets/img/Flag-United-States-of-America.jpg"
             alt="usa"
             width="35"
             height="25"
           />
-        </a>
+          </a>
+        </div>
       </div>
     </div>
+
   `,
   styles: [
     `
-      .wrapper {
-        position: relative;
-        max-width: 450px;
-        border-radius: 20px;
-        backdrop-filter: blur(55px);
-        padding: 2rem 3rem;
-        transition: all 0.4 ease;
-      }
-      .logo > img {
-        display: block;
-        margin: 0 auto;
-        width: 90px;
-        height: 88px;
-      }
-      .logo > h1 {
-        margin: 10px;
-        font-size: 1rem;
-        text-align: center;
-        color: #020202;
-      }
-      .login_form {
-        position: relative;
-        margin: 10px 0;
-        max-width: 325px;
-        border: 2px solid #6c6c6cc1;
-        border-radius: 10px;
-        padding: 5px 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .login_form:hover {
-        border: 2px solid #00b7ffc1;
-      }
-      .login_form input {
-        width: 100%;
-        height: 25px;
+     .container{
+       display:grid;
+       justify-content:center;
+       align-items:center;
+       min-height: 100vh;
+     }
+      .wrapper{
         background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        color: #000000;
-        padding: 0 20px 0 10px;
+        backdrop-filter: blur(50px);
+        padding:1rem 2rem;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px grey;
       }
-      .remember {
-        font-size: 1rem;
-        color: #000000;
-        margin: 10px 0px;
-      }
-      input[type='checkbox'] {
-        outline: 1px solid #0096fa;
-        user-select: none;
-        border-radius: 5px;
-        width: 1rem;
-        height: 1rem;
-        list-style: none;
-        accent-color: #0096fa;
-      }
-      .info {
-        background: #fff9c4;
-        border-radius: 6px;
-        padding: 0.5rem;
-        text-align: center;
-        width: clamp(300px, 60%, 850px);
-      }
+     .logo>img{
+      width:15vh;
+      margin:10px auto;
+      display:block;
+     }
+     .logo>h1{
+      text-align:center;
+      font-size:1rem;
+       margin-bottom: 10px;
+     }
+      input[type="email"],input[type="password"] {
+         width: 100%;
+         padding: 6px 2rem;
 
-      @supports (accent-color: #fff) {
-        .info {
-          display: none;
-        }
+         outline: none;
+         border: #808080 1px solid;
+         border-radius: 4px;
+         transition: all 0.5s ease;
+     }
+      input[type="text"]:focus{
+        border:#0099ff 1px solid;
       }
-      .remember a {
-        color: #057727;
-        text-decoration: none;
-        cursor: pointer;
-        padding: 0 13px;
-        transition: all 0.4 ease;
+      input[type="password"]:focus{
+        border:#0099ff 1px solid;
       }
-      .remember a:hover {
+     .login_form+span{
+      position:relative;
+       bottom:25px;
+       left:10px;
+     }
+    .remember{
+      display:flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    .remember>a{
+      text-decoration: none;
+      color:#0099ff;
+      transition: all 1s ease;
+    }
+     .sign-up-link{
+       font-size: 1rem;
+       margin-left: 8px;
+     }
+      .remember>a:hover{
+        opacity: 0.9;
         text-decoration: underline;
       }
-      input[type='button'] {
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        background-color: rgba(0, 183, 255, 0.324);
-        outline: none;
-        border: none;
-        cursor: pointer;
-        margin: 10px 0;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #6d6d6d;
-        transition: all 0.4s ease;
+      #remember:checked{
+        accent-color: blue;
       }
-      input[type='button']:hover {
-        background-color: rgba(0, 183, 255, 0.963);
-        color: #fff;
+       button[type="submit"]{
+         width: 100%;
+         background: #009999;
+         outline:none;
+         border:none;
+         border-radius: 4px;
+         padding:5px 2rem;
+         color:#fff;
+         font-size: 1rem;
+         cursor:pointer;
+         margin:10px 0;
+         overflow-x: hidden;
+         transition: all 0.5s ease;
+       }
+      button[type="submit"], button[type="button"]:hover{
+        background: #009bac;
+        transform: scale(1.01);
       }
-      button[type='submit'] {
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        background-color: rgba(0, 183, 255, 0.324);
-        outline: none;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        font-weight: 600;
-        transition: all 0.4s ease;
-      }
-      button[type='submit']:hover {
-        background-color: rgba(0, 183, 255, 0.963);
-        color: #fff;
-      }
-      button a {
-        text-decoration: none;
-        color: #888888;
-      }
-      button:hover a {
-        color: white;
-      }
-      .bck a {
-        float: right;
-        text-decoration: none;
-        font-size: 1rem;
-        color: #000000;
-      }
-
-      .lang {
+      .lang{
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
       }
-      .lang img {
-        border-radius: 2px;
-        margin: 10px;
+      .lang>a>img{
+        width: 25px;
+        height: 15px;
+        margin: 0 10px;
+        border-radius: 4px;
+        overflow-x: hidden;
+        transition: all 0.5s ease;
       }
-
-      .lang img:hover {
-        transform: scale(1.05);
+      .lang>a>img:hover{
+        transform: scale(1.03);
       }
-      .error {
-        padding: 5px 5rem;
-        max-width: 300px;
-        color: #990000;
-        background: rgba(255, 77, 77, 0.3);
-        border-radius: 10px;
-        border: 1px solid #990000;
-      }
-
-      @media screen and (max-width:420px){
-        .error {
-          padding: 5px 4.6rem;
-        max-width: 300px;
-        color: #990000;
-        background: rgba(255, 77, 77, 0.3);
-        border-radius: 10px;
-        border: 1px solid #990000;
-      }
-      }
-
+     .error{
+       position: relative;
+       color:red;
+       right: 13px;
+       font-size: 12px;
+     }
+     input.ng-invalid,input.ng-touched{
+       border:red 1px solid;
+     }
+     input.ng-valid,input.ng-untouched{
+       border:grey 1px solid;
+     }
 
     `,
   ],
 })
 export class LoginComponent implements OnInit {
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-  user = faUser;
+  user = faMailBulk;
   lock = faLock;
+  constructor(
+    private router:Router,
+    private usersService:UsersService,
+    private toast:HotToastService
+  ) {}
+  ngOnInit() { }
 
-  @ViewChild('userForm') form!: NgForm;
-  onSubmit(){
-    console.log(this.form.value.uname);
+  loginForm = new FormGroup({
+    email: new FormControl('',[Validators.required,Validators.email]),
+    password: new FormControl('', [Validators.required,Validators.minLength(6)]),
+  })
+
+  get email(){
+    return this.loginForm.get('email');
   }
-
+  get password(){
+    return this.loginForm.get('password');
+  }
+  submit(){
+      if(!this.loginForm.valid && this.loginForm === null){return;}
+      const {email, password} = this.loginForm.value;
+      this.usersService.login(email,password)
+        .pipe(this.toast.observe({
+            success: 'Logged in successfully',
+            loading: 'Logging in...',
+            error : 'There was error'
+        })).subscribe(()=>{
+          this.router.navigate(['/home']);
+      })
+  }
 }
