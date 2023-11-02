@@ -80,6 +80,23 @@ import { Component } from '@angular/core';
     #myMenu li a:hover {
       background-color: #eee;
     }
+    @media screen and (max-width: 768px){
+      .right {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 5rem;
+      }
+    }
+    @media screen and (max-width: 560px){
+      .right {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 2rem;
+      }
+    }
+
   `]
 })
 export class MenuComponent {
