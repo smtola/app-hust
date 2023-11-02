@@ -8,17 +8,60 @@ import { VerifyCodeComponent } from './components/verify-code/verify-code.compon
 import { AccountProfileComponent } from './components/account-profile/account-profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import {MenuComponent} from "./components/menu/menu.component";
+import {redirectLoggedInTo, redirectUnauthorizedTo,canActivate} from "@angular/fire/auth-guard";
 
+const redirectToLogin = () => redirectUnauthorizedTo (['login']);
+const redirectToHome = () => redirectLoggedInTo (['home']);
 const routes: Routes = [
-  {path: '',redirectTo:'home',pathMatch:'full'},
-  {path:'home',component:HomeComponent},
-  {path:'login',component:LoginComponent},
-  {path:'sign-up',component:SignUpComponent},
-  {path:'forget-psw',component:ForgetPswComponent},
-  {path:'staff-app',component:StaffAppComponent},
-  {path:'verify-code',component:VerifyCodeComponent},
-  {path:'account-profile',component:AccountProfileComponent},
-  {path:'navbar', component:NavbarComponent}
+  {
+    path: '',
+    pathMatch:'full',
+    component:HomeComponent
+  },
+  {
+    path:'home',
+    component:HomeComponent,
+    ...canActivate(redirectToLogin)
+  },
+  {
+    path:'login',
+    component:LoginComponent,
+    ...canActivate(redirectToHome)
+  },
+  {
+    path:'sign-up'
+    ,component:SignUpComponent,
+    ...canActivate(redirectToHome)
+  },
+  {
+    path:'forget-psw',
+    component:ForgetPswComponent,
+    ...canActivate(redirectToHome)
+  },
+  {
+    path:'staff-app',
+    component:StaffAppComponent,
+    ...canActivate(redirectToLogin)
+  },
+  {
+    path:'verify-code',
+    component:VerifyCodeComponent,
+    ...canActivate(redirectToHome)
+  },
+  {
+    path:'account-profile',
+    component:AccountProfileComponent,
+    ...canActivate(redirectToLogin)
+  },
+  {
+    path:'navbar',
+    component:NavbarComponent},
+  {
+    path:'menu',
+    component:MenuComponent,
+    ...canActivate(redirectToLogin)
+  }
 ];
 
 @NgModule({

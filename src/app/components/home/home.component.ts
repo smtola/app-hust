@@ -102,9 +102,9 @@ export class HomeComponent implements OnInit {
     {id:1, title:"NATT",source:'./assets/img/nat.png'},
     {id:1, title:"NATT (Local)",source:'./assets/img/nat.png'},
     {id:1, title:"Resource system",source:'./assets/img/resource-system.png'},
-    {id:1, title:"Staff _App",source:'./assets/img/staff.png',link:'./staff-app'},
+    {id:1, title:"Staff _App",source:'./assets/img/staff.png',link:'/staff-app'},
     {id:1, title:"Staff _App (Local)",source:'./assets/img/staff.png'},
-    {id:1, title:"UTILS",source:'./assets/img/utils-local.png'},
+    {id:1, title:"UTILS",source:'./assets/img/utils-local.png',link:'/menu'},
     {id:1, title:"UTILS (Local)",source:'./assets/img/utils-local.png'},
   ]
   searchValueText:string = '';

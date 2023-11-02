@@ -17,6 +17,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import {UsersService} from "./components/services/users.service";
 import {HotToastModule, provideHotToastConfig} from '@ngneat/hot-toast';
+import { MenuComponent } from './components/menu/menu.component';
+import { BackgroundComponent } from './components/background/background.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import {HotToastModule, provideHotToastConfig} from '@ngneat/hot-toast';
     VerifyCodeComponent,
     AccountProfileComponent,
     NavbarComponent,
-    SignUpComponent
+    SignUpComponent,
+    MenuComponent,
+    BackgroundComponent
   ],
   imports: [
     BrowserModule,
