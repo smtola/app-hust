@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import {UsersService} from "../services/users.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -30,7 +31,7 @@ import {UsersService} from "../services/users.service";
             <div class="dropdown-content">
               <a routerLink="/account-profile">Personal</a>
               <a routerLink="/forget-psw">Reset password</a>
-              <a routerLink="/login">Log out</a>
+              <a (click)="onLogout()" style="cursor:pointer;">Log out</a>
             </div>
           </li>
         </ul>
@@ -169,7 +170,7 @@ import {UsersService} from "../services/users.service";
 })
 export class NavbarComponent implements OnInit {
   user$ = this.userService.userName$;
-  constructor(private userService:UsersService) {}
+  constructor(private userService:UsersService, private router:Router) {}
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -184,4 +185,9 @@ export class NavbarComponent implements OnInit {
     // console.log(this.searchChangesValueText);
   }
 
+  onLogout(){
+    this.userService.logout().subscribe(()=>{
+      this.router.navigate(['/login']);
+    })
+  }
 }

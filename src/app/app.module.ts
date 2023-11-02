@@ -19,7 +19,6 @@ import {UsersService} from "./components/services/users.service";
 import {HotToastModule, provideHotToastConfig} from '@ngneat/hot-toast';
 import { MenuComponent } from './components/menu/menu.component';
 import { BackgroundComponent } from './components/background/background.component';
-
 @NgModule({
   declarations: [
     AppComponent,
